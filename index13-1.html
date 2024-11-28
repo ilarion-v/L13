@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .contact-form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+        }
+        .contact-form h2 {
+            color: #ff3366;
+            margin-bottom: 20px;
+        }
+        .contact-form h4 {
+            color: #a5a5a5be;
+            margin-bottom: 20px;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .contact-form button[type="submit"] {
+            width: 90%;
+            justify-content: center;
+            display: block;
+            margin: auto;
+            background-color: #00aaff;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .contact-form label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="contact-form">
+        <h2>We would like to help you</h2>
+        <form id="contactForm" action="#" method="post">
+            <input type="text" id="name" name="name" placeholder="name" required>
+            <div class="error" id="nameError"></div>
+
+            <textarea id="message" name="message" rows="4" placeholder="message" required></textarea>
+            <div class="error" id="messageError"></div>
+         
+            <h4>HAW TO ANSWER YOU?</h4>
+
+            <input type="tel" id="phone" name="phone" placeholder="phone" required>
+            <div class="error" id="phoneError"></div>
+
+            <input type="email" id="email" name="email" placeholder="email" required>
+            <div class="error" id="emailError"></div>
+            
+            <button type="submit">Send message</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const message = document.getElementById('message').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            let isValid = true;
+
+            if (!name) {
+                isValid = false;
+                showError('nameError', 'Ім\'я є обов\'язковим.');
+            } else {
+                clearError('nameError');
+            }
+            
+            if (message.length < 5) {
+                isValid = false;
+                showError('messageError', 'Повідомлення повинно містити не менше 5 символів.');
+            } else {
+                clearError('messageError');
+            }
+            
+            const phoneRegex = /^\+380\d{9}$/;
+            if (!phoneRegex.test(phone)) {
+                isValid = false;
+                showError('phoneError', 'Номер телефону повинен починатися з +380 та містити 12 цифр.');
+            } else {
+                clearError('phoneError');
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                isValid = false;
+                showError('emailError', 'Електронна пошта повинна містити @ та крапку.');
+            } else {
+                clearError('emailError');
+            }
+
+            if (isValid) {
+                console.log({
+                    name: name,
+                    message: message,
+                    phone: phone,
+                    email: email
+                });
+            }
+        });
+
+        function showError(elementId, message) {
+            document.getElementById(elementId).textContent = message;
+        }
+
+        function clearError(elementId) {
+            document.getElementById(elementId).textContent = '';
+        }
+    </script>
+</body>
+</html>
