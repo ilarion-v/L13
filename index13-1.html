@@ -91,14 +91,14 @@
 
             let isValid = true;
 
-            if (!name) {
+            if (!name || !/^[a-zA-Zа-яА-Я\s]+$/.test(name)) {
                 isValid = false;
                 showError('nameError', 'Ім\'я є обов\'язковим.');
             } else {
                 clearError('nameError');
             }
             
-            if (message.length < 5) {
+            if (message.length < 5 || !/^[a-zA-Zа-яА-Я\s]+$/.test(message)) {
                 isValid = false;
                 showError('messageError', 'Повідомлення повинно містити не менше 5 символів.');
             } else {
