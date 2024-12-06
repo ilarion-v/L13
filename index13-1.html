@@ -84,23 +84,25 @@
         document.getElementById('contactForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const name = document.getElementById('name').value.trim();
-            const message = document.getElementById('message').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const email = document.getElementById('email').value.trim();
+            const formData = new FormData(event.target);
+            const formValues = Object.fromEntries(formData.entries());
+
+            console.log(formValues);
+
+            const { name, message, phone, email } = formValues;
 
             let isValid = true;
 
             if (!name || !/^[a-zA-Zа-яА-Я\s]+$/.test(name)) {
                 isValid = false;
-                showError('nameError', 'Ім\'я є обов\'язковим.');
+                showError('nameError', 'Ім\'я є обов\'язковим і повинно містити тільки текст.');
             } else {
                 clearError('nameError');
             }
-            
+
             if (message.length < 5 || !/^[a-zA-Zа-яА-Я\s]+$/.test(message)) {
                 isValid = false;
-                showError('messageError', 'Повідомлення повинно містити не менше 5 символів.');
+                showError('messageError', 'Повідомлення повинно містити не менше 5 символів і тільки текст.');
             } else {
                 clearError('messageError');
             }
@@ -122,12 +124,7 @@
             }
 
             if (isValid) {
-                console.log({
-                    name: name,
-                    message: message,
-                    phone: phone,
-                    email: email
-                });
+                console.log(formValues);
             }
         });
 
